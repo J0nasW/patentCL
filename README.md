@@ -1,16 +1,7 @@
----
-license: mit
-pipeline_tag: sentence-similarity
-tags:
-  - sentence-transformers
-  - feature-extraction
-  - sentence-similarity
-  - transformers
-  - patent-classification
----
-
 # PatentCL - Patent Classification with Transformers
-PatentCL is a fine-tuned version of the already great [AI-Growth-Lab/PatentSBERTa](https://huggingface.co/AI-Growth-Lab/PatentSBERTa) model. It is trained on the [PatentsView](https://patentsview.org/) Dataset (USPTO Data). The model is trained to classify patents with the [Cooperative Patent Classification (CPC)](https://www.epo.org/searching-for-patents/helpful-resources/first-time-here/classification/cpc.html). It takes in the patent title as well as the abstract (concatenated with a special token in between) and outputs a 768-dim embedding vector representation of the patent. This vector representation can be used to find similar patents or to cluster patents.
+PatentCL is a fine-tuned version of the already great [AI-Growth-Lab/PatentSBERTa](https://huggingface.co/AI-Growth-Lab/PatentSBERTa) model. It is trained on the [PatentsView](https://patentsview.org/) Dataset (USPTO Data) by leveraging contrastive learning.
+The model is trained to classify patents with the [Cooperative Patent Classification (CPC)](https://www.epo.org/searching-for-patents/helpful-resources/first-time-here/classification/cpc.html). It takes in the patent title as well as the abstract (concatenated with a special token in between) and outputs a 768-dim embedding vector representation of the patent. This vector representation can be used to find similar patents or to cluster patents.
+Similar aproaches were done by [SPECTER](https://arxiv.org/abs/2004.07180) and [SciNCL](https://arxiv.org/abs/2202.06671) on scientific publications.
 
 ![Scatter Plot](scatter_plot.png)
 
@@ -22,7 +13,9 @@ The `patent_handler.py` script is used to restructure the raw data from the Pate
 - [g_patent](https://s3.amazonaws.com/data.patentsview.org/download/g_patent.tsv.zip)
 - [g_us_patent_citation](https://s3.amazonaws.com/data.patentsview.org/download/g_us_patent_citation.tsv.zip)
 - [g_cpc_current](https://s3.amazonaws.com/data.patentsview.org/download/g_cpc_current.tsv.zip)
+
 There is another file that greatly helps with the restructuring process by providing a full list of CPC Classes but is not listed on the PatentsView website: [cpc_group](https://s3.amazonaws.com/data.patentsview.org/download/cpc_group.tsv.zip)
+
 If the links are not working, visit the [PatentsView](https://patentsview.org/download/data-download-tables) website and download the files manually.
 
 Download the zipped files and extract them into the `data` folder. Open the iPython Notebook `patent_handler.ipynb` and run the cells. The notebook will output several csv files which can be used to import the data into a neo4j database. More information on the import can be found inside the notebook. Finally, the notebook can make a carefully crafted cypher query to extract the training data for the conrastive learning algorithm.
@@ -43,5 +36,9 @@ The model was trained on a single A4500 GPU. The following models were created:
 - patentCL-10K (10K triplet samples, 10 epochs)
 - patentCL-100K (100K triplet samples, 10 epochs)
 - patentCL-1M (1M triplet samples, 10 epochs)
+- patentCL-FULL (all 8.5M triplet samples, 10 epochs)
 
+Keep in mind, that this project is a work in progress and we will update the links here when the models have finished the training.
+
+You can access the models on the [HuggingFace Hub TIE Page]([https://huggingface.co/](https://huggingface.co/TUHH-TIE)). The models can be used with the [Sentence-Transformers](https://www.sbert.net/index.html) library.
 The training script can be found in the `training_scripts` folder. The training script utilizes the [Sentence-Transformers](https://www.sbert.net/index.html) library.
