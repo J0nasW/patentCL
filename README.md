@@ -33,7 +33,7 @@ The `patent_embedding_scatter.ipynb` notebook can be used to compare own models 
 
 ## Training
 The model was trained on a single A4500 GPU. The following models were created:
-- patentCL-10K (10K triplet samples, 10 epochs)
+- [patentCL-10K (10K triplet samples, 10 epochs)](https://huggingface.co/TUHH-TIE/patentCL-10K)
 - patentCL-100K (100K triplet samples, 10 epochs)
 - patentCL-1M (1M triplet samples, 10 epochs)
 - patentCL-FULL (all 8.5M triplet samples, 10 epochs)
